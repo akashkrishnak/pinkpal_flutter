@@ -1,16 +1,14 @@
-import 'package:companion/home.dart';
 import 'package:companion/logged_in.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class homeno extends StatefulWidget {
+class HomeNo extends StatefulWidget {
+  const HomeNo({Key? key}) : super(key: key);
 
   @override
-  State<homeno> createState() => homenoState();
+  State<HomeNo> createState() => HomeNoState();
 }
 
 // var mybox = Hive.box('testBox');
@@ -39,15 +37,13 @@ void pop(BuildContext context) {
   );
 }
 
-
 final FirebaseAuth firebaseauth = FirebaseAuth.instance;
 final user = FirebaseAuth.instance.currentUser!;
 
-class homenoState extends State<homeno> {
+class HomeNoState extends State<HomeNo> {
   TextEditingController house = TextEditingController();
   TextEditingController phno = TextEditingController();
   @override
-
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
@@ -57,7 +53,7 @@ class homenoState extends State<homeno> {
             height: MediaQuery.of(context).size.height * 0.1,
           ),
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Text(
               "Enter house number & phone number",
               style: GoogleFonts.quicksand(
@@ -68,7 +64,7 @@ class homenoState extends State<homeno> {
             height: MediaQuery.of(context).size.height * 0.05,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 40),
             child: TextField(
                 controller: house,
                 cursorColor: Colors.red,
@@ -76,17 +72,18 @@ class homenoState extends State<homeno> {
                   hintText: "House number",
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(100),
-                      borderSide: BorderSide(color: Colors.red, width: 2)),
+                      borderSide:
+                          const BorderSide(color: Colors.red, width: 2)),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(100),
-                      borderSide: BorderSide(color: Colors.red)),
+                      borderSide: const BorderSide(color: Colors.red)),
                 )),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 40),
             child: TextField(
                 controller: phno,
                 cursorColor: Colors.red,
@@ -94,11 +91,11 @@ class homenoState extends State<homeno> {
                   hintText: "Phone number",
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(100),
-                    borderSide: BorderSide(color: Colors.red, width: 2),
+                    borderSide: const BorderSide(color: Colors.red, width: 2),
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(100),
-                      borderSide: BorderSide(color: Colors.red)),
+                      borderSide: const BorderSide(color: Colors.red)),
                 )),
           ),
           SizedBox(
@@ -125,12 +122,15 @@ class homenoState extends State<homeno> {
                     'house number': house.text
                   });
                   if (house.text != "" && phno.text != "") {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>logged_in()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoggedIn()));
                   } else {
                     pop(context);
                   }
                 },
-                child: Text(
+                child: const Text(
                   "Submit",
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 )),

@@ -1,30 +1,23 @@
+import 'package:companion/notifications/request_notification_permissions.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-class contents extends StatefulWidget {
-  const contents({super.key});
+class Contents extends StatefulWidget {
+  const Contents({super.key});
 
   @override
-  State<contents> createState() => contentsState();
+  State<Contents> createState() => ContentsState();
 }
-class contentsState extends State<contents> {
-  
-  
 
+class ContentsState extends State<Contents> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
+    return Column(
+        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
           Container(
               padding: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * .15),
@@ -51,7 +44,11 @@ class contentsState extends State<contents> {
               child: SizedBox(
                 height: 50,
                 child: ElevatedButton.icon(
-                    onPressed: () {
+                    onPressed: () async {
+                      // final r = await requestNotificationPermissions(context);
+                      // if (!r) {
+                      //   return;
+                      // }
                       final provider = Provider.of<GoogleSignInProvider>(
                           context,
                           listen: false);
@@ -71,6 +68,6 @@ class contentsState extends State<contents> {
                           borderRadius: BorderRadius.circular(18.0),
                         )))),
               ))
-        ]));
+        ]);
   }
 }
