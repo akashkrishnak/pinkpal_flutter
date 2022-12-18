@@ -1,49 +1,37 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'contents.dart';
-import 'logged_in.dart';
 import 'package:location/location.dart';
-import 'location.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
-import 'main.dart';
 import 'houseno.dart';
 import 'home.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
-class logged_in extends StatefulWidget {
-  const logged_in({super.key});
+class LoggedIn extends StatefulWidget {
+  const LoggedIn({super.key});
   @override
-  State<logged_in> createState() => logged_inState();
+  State<LoggedIn> createState() => LoggedInState();
 }
 
-Future<void> _createNotificationChannel(
-    String id, String name, String sound) async {
-  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  var androidNotificationChannel = AndroidNotificationChannel(
-    id,
-    name,
-    description: "important message",
-    sound: RawResourceAndroidNotificationSound(sound),
-    playSound: true,
-  );
+// Future<void> _createNotificationChannel(
+//     String id, String name, String sound) async {
+//   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+//   var androidNotificationChannel = AndroidNotificationChannel(
+//     id,
+//     name,
+//     description: "important message",
+//     sound: RawResourceAndroidNotificationSound(sound),
+//     playSound: true,
+//   );
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(androidNotificationChannel);
-}
+//   await flutterLocalNotificationsPlugin
+//       .resolvePlatformSpecificImplementation<
+//           AndroidFlutterLocalNotificationsPlugin>()
+//       ?.createNotificationChannel(androidNotificationChannel);
+// }
 
 LocationData? currentlocation;
 void getlocation() {
@@ -53,9 +41,9 @@ void getlocation() {
   });
 }
 
-class logged_inState extends State<logged_in> {
+class LoggedInState extends State<LoggedIn> {
   final user = FirebaseAuth.instance.currentUser!;
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  //FirebaseMessaging messaging = FirebaseMessaging.instance;
   String? token = "";
   static String latitude = "";
   static String longitude = "";
@@ -83,9 +71,9 @@ class logged_inState extends State<logged_in> {
   void initState() {
     super.initState();
     // getvalue();
-    gettoken();
+    // gettoken();
     fetchdata();
-    _createNotificationChannel("channel_id_2", "channel_name", "alarm_sound");
+    // _createNotificationChannel("channel_id_2", "channel_name", "alarm_sound");
     // getlocation();
   }
 
@@ -98,9 +86,9 @@ class logged_inState extends State<logged_in> {
                 'key=AAAAJOLX8K4:APA91bGOCsk6LTy6nkbZU9EPLAy1ckgi4aGZG_cqaQUru5GOojuVmvoa67mSCI2_UPU6U6EEuN8aPQ5pNaIWUYHvyv_MYTsysoFRla-Ge7Wo9fH5PivI-AeEb0claglhrVCsfCAWfAED',
           },
           body: jsonEncode(<String, dynamic>{
-            'notification': <String, dynamic>{
+            'notification': {
               'body':
-                  '${user.displayName} needs help!!!\nHouse number: ${housenumber}',
+                  '${user.displayName} needs help!!!\nHouse number: $housenumber',
               'title': 'Emergency!!!',
             },
             'priority': 'high',
@@ -120,14 +108,14 @@ class logged_inState extends State<logged_in> {
     }
   }
 
-  void gettoken() async {
-    await FirebaseMessaging.instance.getToken().then((token) {
-      setState(() {
-        token = token;
-      });
-      savetoken(token!);
-    });
-  }
+  // void gettoken() async {
+  //   await FirebaseMessaging.instance.getToken().then((token) {
+  //     setState(() {
+  //       token = token;
+  //     });
+  //     savetoken(token!);
+  //   });
+  // }
 
   void savetoken(String token) async {
     await FirebaseFirestore.instance.collection("UserTokens").doc("User1").set({
@@ -212,7 +200,7 @@ class logged_inState extends State<logged_in> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => homeno()),
+                      MaterialPageRoute(builder: (context) => HomeNo()),
                     ).then((result) {
                       if (result != null) {
                         setState(() {
@@ -235,7 +223,8 @@ class logged_inState extends State<logged_in> {
                     final provider = Provider.of<GoogleSignInProvider>(context,
                         listen: false);
                     provider.logout();
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Home()));
                   },
                 )
               ],
