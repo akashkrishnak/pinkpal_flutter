@@ -1,26 +1,16 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'contents.dart';
-import 'logged_in.dart';
+
 import 'package:location/location.dart';
-import 'location.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
-import 'main.dart';
 import 'houseno.dart';
 import 'home.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 class logged_in extends StatefulWidget {
   const logged_in({super.key});
@@ -28,22 +18,22 @@ class logged_in extends StatefulWidget {
   State<logged_in> createState() => logged_inState();
 }
 
-Future<void> _createNotificationChannel(
-    String id, String name, String sound) async {
-  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  var androidNotificationChannel = AndroidNotificationChannel(
-    id,
-    name,
-    description: "important message",
-    sound: RawResourceAndroidNotificationSound(sound),
-    playSound: true,
-  );
+// Future<void> _createNotificationChannel(
+//     String id, String name, String sound) async {
+//   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+//   var androidNotificationChannel = AndroidNotificationChannel(
+//     id,
+//     name,
+//     description: "important message",
+//     sound: RawResourceAndroidNotificationSound(sound),
+//     playSound: true,
+//   );
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(androidNotificationChannel);
-}
+//   await flutterLocalNotificationsPlugin
+//       .resolvePlatformSpecificImplementation<
+//           AndroidFlutterLocalNotificationsPlugin>()
+//       ?.createNotificationChannel(androidNotificationChannel);
+// }
 
 LocationData? currentlocation;
 void getlocation() {
@@ -85,7 +75,7 @@ class logged_inState extends State<logged_in> {
     // getvalue();
     gettoken();
     fetchdata();
-    _createNotificationChannel("channel_id_2", "channel_name", "alarm_sound");
+    // _createNotificationChannel("channel_id_2", "channel_name", "alarm_sound");
     // getlocation();
   }
 
@@ -286,7 +276,7 @@ class logged_inState extends State<logged_in> {
                   Column(
                     children: [
                       SizedBox(
-                        height:MediaQuery.of(context).size.height * 0.05, 
+                        height: MediaQuery.of(context).size.height * 0.05,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.5,
@@ -398,11 +388,7 @@ class logged_inState extends State<logged_in> {
                         height: MediaQuery.of(context).size.height * .25,
                         width: MediaQuery.of(context).size.width * .63,
                         child: MaterialButton(
-<<<<<<< HEAD
                             color: Color.fromARGB(255, 54, 146, 244),
-=======
-                            color: Colors.red,
->>>>>>> f736d1c5f46c049a801860faa4f057f1663f07ff
                             shape: CircleBorder(),
                             onLongPress: () {
                               sendmednotification();
