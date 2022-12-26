@@ -132,33 +132,47 @@ class logged_inState extends State<logged_in> {
     }
   }
 
-  void sendmednotification() async {
+  Future<String> sendmednotification() async {
     try {
-      await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
-          headers: <String, String>{
-            'Content-type': 'application/json',
-            'Authorization':
-                'key=AAAAJOLX8K4:APA91bGOCsk6LTy6nkbZU9EPLAy1ckgi4aGZG_cqaQUru5GOojuVmvoa67mSCI2_UPU6U6EEuN8aPQ5pNaIWUYHvyv_MYTsysoFRla-Ge7Wo9fH5PivI-AeEb0claglhrVCsfCAWfAED',
-          },
-          body: jsonEncode(<String, dynamic>{
-            'notification': <String, dynamic>{
-              'body': 'House number: $housenumber has medical emergency',
-              'title': 'Emergency!!!',
-            },
-            'priority': 'high',
-            'data': <String, dynamic>{
-              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-              'screen': 'logged_in()',
-              'id': '1',
-              'status': 'done'
-            },
-            "android": {
-              "notification": {"channel_id": "channel_id_2"}
-            },
-            "to": "/topics/emercall"
-          }));
+      final response =
+          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-type': 'application/json',
+                'Authorization':
+                    'key=AAAAJOLX8K4:APA91bGOCsk6LTy6nkbZU9EPLAy1ckgi4aGZG_cqaQUru5GOojuVmvoa67mSCI2_UPU6U6EEuN8aPQ5pNaIWUYHvyv_MYTsysoFRla-Ge7Wo9fH5PivI-AeEb0claglhrVCsfCAWfAED',
+              },
+              body: jsonEncode(<String, dynamic>{
+                'priority': 'high',
+                'data': <String, dynamic>{
+                  'body': 'House number: $housenumber has medical emergency',
+                  'title': 'Emergency!!!',
+                  "channel_key": "emergency_channel",
+                  "category": "call",
+                  "color": "FFFFFF",
+                  "notification_id":
+                      DateTime.now().millisecondsSinceEpoch.remainder(100000),
+                  "fullScreenIntent": true,
+                  "buttons": [
+                    {
+                      "key": "accept",
+                      "label": "Help", //button text
+                      "color": "19E567"
+                    },
+                    {
+                      "key": "reject",
+                      "label": "Ignore", //button text
+                      "color": "D0342C"
+                    }
+                  ]
+                },
+                "to": "/topics/emercall"
+              }));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return "Alert has been sent";
+      }
+      return response.body;
     } catch (e) {
-      print("Error sending push notification");
+      return e.toString();
     }
   }
 
@@ -412,8 +426,8 @@ class logged_inState extends State<logged_in> {
                         child: MaterialButton(
                             color: Color.fromARGB(255, 54, 146, 244),
                             shape: CircleBorder(),
-                            onLongPress: () {
-                              sendmednotification();
+                            onLongPress: () async {
+                              final msg = await sendmednotification();
                               // latitude = currentlocation!.latitude!.toString();
                               // longitude = currentlocation!.longitude!.toString();
                               // Navigator.push(
@@ -435,7 +449,7 @@ class logged_inState extends State<logged_in> {
                                                 0.13,
                                         child: Center(
                                           child: Text(
-                                            "Alert has been sent!",
+                                            msg,
                                             style: GoogleFonts.quicksand(
                                                 color: Colors.red,
                                                 fontSize: 20,

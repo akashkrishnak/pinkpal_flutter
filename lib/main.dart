@@ -18,6 +18,7 @@ void main() async {
   FirebaseMessaging.instance.getToken().then((v) {
     debugPrint(v);
   });
+  FirebaseMessaging.instance.subscribeToTopic("emercall");
 
   await Hive.initFlutter();
   var box = await Hive.openBox('testBox');
