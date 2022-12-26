@@ -11,7 +11,11 @@ import 'local_notification.dart';
 class AppNotification {
   ///when ever the user opens the app by tapping on the push notification
   ///then corresponding page should be opened
-  static final List<String> channels = ["basic_channel", "emergency_channels"];
+  static final List<String> channels = [
+    "basic_channel",
+    "emergency_channel",
+    "lock_screen_emergenecy"
+  ];
   static Future<void> bacgroundMessage(RemoteMessage message) async {
     debugPrint("Notification recived");
     if (message.notification == null) {
@@ -66,9 +70,20 @@ class AppNotification {
               soundSource: "resource://raw/sound",
               channelShowBadge: true,
               onlyAlertOnce: false,
+              ledColor: Colors.red),
+          NotificationChannel(
+              channelGroupKey: 'basic_channel_group',
+              channelKey: channels[2],
+              channelName: 'Emergency Notification For lock screen',
+              channelDescription: 'Notification channel Emergenecy help',
+              defaultColor: const Color.fromARGB(255, 236, 29, 29),
+              enableVibration: true,
+              soundSource: "resource://raw/sound",
+              channelShowBadge: true,
+              onlyAlertOnce: false,
               ledColor: Colors.red)
         ],
-        debug: true);
+        debug: false);
   }
 
   static createNotification(LocalNotification notification) async {
@@ -86,7 +101,7 @@ class AppNotification {
               : Color(int.parse(button.color!, radix: 16))));
     }
 
-    //bool? result = await isLockScreen();
+    bool? result = await isLockScreen();
     AwesomeNotifications().createNotification(
         content: NotificationContent(
           // customSound:
@@ -96,10 +111,10 @@ class AppNotification {
           bigPicture: notification.bigPicture,
           id: notification.notificationId,
           largeIcon: notification.largeIcon,
-          // channelKey: result == null || !result
-          //     ? notification.channelKey
-          //     : "basic_channel",
-          channelKey: notification.channelKey,
+          channelKey: result == null || !result
+              ? notification.channelKey
+              : "lock_screen_emergenecy",
+          //   channelKey: notification.channelKey,
           title: notification.title,
           payload: {
             "buttons":
