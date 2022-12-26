@@ -21,15 +21,14 @@ class contentsState extends State<contents> {
   Widget build(BuildContext context) {
     return Container(
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.02),
-      child: Expanded(
-        // height: MediaQuery.of(context).size.height*0.5,
-        // width: MediaQuery.of(context).size.width,
-        flex: 1,
-        child: Image.asset('assets/icon2.png',),
+      Padding(
+        padding:
+            EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+        child: Image.asset(
+          'assets/icon2.png',
+        ),
       ),
-      ),
-      
+
       // Container(
       //     padding: EdgeInsets.only(
       //         top: MediaQuery.of(context).size.height * .15),
@@ -41,7 +40,8 @@ class contentsState extends State<contents> {
       Container(
         margin: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * .13),
-        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height *.003),
+        padding:
+            EdgeInsets.only(top: MediaQuery.of(context).size.height * .003),
         child: Text(
           "\nWelcome to\nCompanion",
           style: GoogleFonts.quicksand(
@@ -67,8 +67,8 @@ class contentsState extends State<contents> {
                   style: TextStyle(fontSize: 20),
                 ),
                 style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Color.fromARGB(255, 54, 158, 244)),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Color.fromARGB(255, 54, 158, 244)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18.0),

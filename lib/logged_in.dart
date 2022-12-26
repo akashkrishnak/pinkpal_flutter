@@ -96,33 +96,30 @@ class logged_inState extends State<logged_in> {
                 'key=AAAAJOLX8K4:APA91bGOCsk6LTy6nkbZU9EPLAy1ckgi4aGZG_cqaQUru5GOojuVmvoa67mSCI2_UPU6U6EEuN8aPQ5pNaIWUYHvyv_MYTsysoFRla-Ge7Wo9fH5PivI-AeEb0claglhrVCsfCAWfAED',
           },
           body: jsonEncode(<String, dynamic>{
-            
             'priority': 'high',
             'data': <String, dynamic>{
-              "body":"${user.displayName} needs help!!!\nHouse number:${housenumber}",
+              "body":
+                  "${user.displayName} needs help!!!\nHouse number:$housenumber",
               "title": "Emergency!!!",
               "channel_key": "emergency_channel",
-                "category": "call",
-            
+              "category": "call",
               "color": "FFFFFF",
-            "notification_id": UniqueKey().hashCode,
-            "fullScreenIntent": true,
-                "buttons": [
-                    {
-                    "key" : "accept",
-                    "label" : "Help", //button text
-                    "color": "19E567"
-                  
-                    },
-                     {
-                    "key" : "reject",
-                    "label" : "Ignore", //button text
-                    "color":"D0342C"
-                   
-                    }
-                ]
+              "notification_id":
+                  DateTime.now().millisecondsSinceEpoch.remainder(100000),
+              "fullScreenIntent": true,
+              "buttons": [
+                {
+                  "key": "accept",
+                  "label": "Help", //button text
+                  "color": "19E567"
+                },
+                {
+                  "key": "reject",
+                  "label": "Ignore", //button text
+                  "color": "D0342C"
+                }
+              ]
             },
-            "priority": "high",
             "to": "/topics/emercall"
           }));
     } catch (e) {
@@ -296,7 +293,7 @@ class logged_inState extends State<logged_in> {
                   Column(
                     children: [
                       SizedBox(
-                        height:MediaQuery.of(context).size.height * 0.05, 
+                        height: MediaQuery.of(context).size.height * 0.05,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.5,
