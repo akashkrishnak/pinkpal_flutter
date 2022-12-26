@@ -398,7 +398,11 @@ class logged_inState extends State<logged_in> {
                         height: MediaQuery.of(context).size.height * .25,
                         width: MediaQuery.of(context).size.width * .63,
                         child: MaterialButton(
+<<<<<<< HEAD
                             color: Color.fromARGB(255, 54, 146, 244),
+=======
+                            color: Colors.red,
+>>>>>>> f736d1c5f46c049a801860faa4f057f1663f07ff
                             shape: CircleBorder(),
                             onLongPress: () {
                               sendmednotification();
