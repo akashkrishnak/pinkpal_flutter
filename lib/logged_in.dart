@@ -87,43 +87,48 @@ class logged_inState extends State<logged_in> {
     // getlocation();
   }
 
-  void sendpushnotification() async {
+  Future<String> sendpushnotification() async {
     try {
-      await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
-          headers: <String, String>{
-            'Content-type': 'application/json',
-            'Authorization':
-                'key=AAAAJOLX8K4:APA91bGOCsk6LTy6nkbZU9EPLAy1ckgi4aGZG_cqaQUru5GOojuVmvoa67mSCI2_UPU6U6EEuN8aPQ5pNaIWUYHvyv_MYTsysoFRla-Ge7Wo9fH5PivI-AeEb0claglhrVCsfCAWfAED',
-          },
-          body: jsonEncode(<String, dynamic>{
-            'priority': 'high',
-            'data': <String, dynamic>{
-              "body":
-                  "${user.displayName} needs help!!!\nHouse number:$housenumber",
-              "title": "Emergency!!!",
-              "channel_key": "emergency_channel",
-              "category": "call",
-              "color": "FFFFFF",
-              "notification_id":
-                  DateTime.now().millisecondsSinceEpoch.remainder(100000),
-              "fullScreenIntent": true,
-              "buttons": [
-                {
-                  "key": "accept",
-                  "label": "Help", //button text
-                  "color": "19E567"
+      final response =
+          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-type': 'application/json',
+                'Authorization':
+                    'key=AAAAJOLX8K4:APA91bGOCsk6LTy6nkbZU9EPLAy1ckgi4aGZG_cqaQUru5GOojuVmvoa67mSCI2_UPU6U6EEuN8aPQ5pNaIWUYHvyv_MYTsysoFRla-Ge7Wo9fH5PivI-AeEb0claglhrVCsfCAWfAED',
+              },
+              body: jsonEncode(<String, dynamic>{
+                'priority': 'high',
+                'data': <String, dynamic>{
+                  "body":
+                      "${user.displayName} needs help!!!\nHouse number:$housenumber",
+                  "title": "Emergency!!!",
+                  "channel_key": "emergency_channel",
+                  "category": "call",
+                  "color": "FFFFFF",
+                  "notification_id":
+                      DateTime.now().millisecondsSinceEpoch.remainder(100000),
+                  "fullScreenIntent": true,
+                  "buttons": [
+                    {
+                      "key": "accept",
+                      "label": "Help", //button text
+                      "color": "19E567"
+                    },
+                    {
+                      "key": "reject",
+                      "label": "Ignore", //button text
+                      "color": "D0342C"
+                    }
+                  ]
                 },
-                {
-                  "key": "reject",
-                  "label": "Ignore", //button text
-                  "color": "D0342C"
-                }
-              ]
-            },
-            "to": "/topics/emercall"
-          }));
+                "to": "/topics/emercall"
+              }));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return "Alert has been sent";
+      }
+      return response.body;
     } catch (e) {
-      print("Error sending push notification");
+      return e.toString();
     }
   }
 
@@ -137,7 +142,7 @@ class logged_inState extends State<logged_in> {
           },
           body: jsonEncode(<String, dynamic>{
             'notification': <String, dynamic>{
-              'body': 'House number: ${housenumber} has medical emergency',
+              'body': 'House number: $housenumber has medical emergency',
               'title': 'Emergency!!!',
             },
             'priority': 'high',
@@ -351,8 +356,8 @@ class logged_inState extends State<logged_in> {
                         child: MaterialButton(
                             color: Colors.red,
                             shape: CircleBorder(),
-                            onLongPress: () {
-                              sendpushnotification();
+                            onLongPress: () async {
+                              final msg = await sendpushnotification();
                               // latitude = currentlocation!.latitude!.toString();
                               // longitude = currentlocation!.longitude!.toString();
                               // Navigator.push(
@@ -374,7 +379,7 @@ class logged_inState extends State<logged_in> {
                                                 0.13,
                                         child: Center(
                                           child: Text(
-                                            "Alert has been sent!",
+                                            msg,
                                             style: GoogleFonts.quicksand(
                                                 color: Colors.red,
                                                 fontSize: 20,
