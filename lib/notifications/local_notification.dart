@@ -122,13 +122,15 @@ class NotificationButton {
 
 class ButtonAction {
   String? type;
-  List<String>? arguments;
+  List<String?> arguments;
 
-  ButtonAction({this.type, this.arguments});
+  ButtonAction({this.type, required this.arguments});
 
-  ButtonAction.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    arguments = json['arguments'].cast<String>();
+  factory ButtonAction.fromJson(Map<String, dynamic> json) {
+    return ButtonAction(
+        type: json['type'],
+        arguments:
+            json['arguments'] == null ? [] : json['arguments'].cast<String?>());
   }
 
   Map<String, dynamic> toJson() {

@@ -12,6 +12,8 @@ import 'local_notification.dart';
 class AppNotification {
   ///when ever the user opens the app by tapping on the push notification
   ///then corresponding page should be opened
+  static Widget? child;
+
   static final List<String> channels = [
     "basic_channel",
     "emergency_channel",
@@ -160,12 +162,27 @@ class AppNotification {
   static void performAction(ButtonAction a) {
     switch (a.type) {
       case "emergency":
-        Navigator.pushAndRemoveUntil(
-          appNavigator.currentContext!,
-          MaterialPageRoute(builder: (context) => recv_details(name: a.arguments![0],housenumber: a.arguments![1],phone: a.arguments![2],)),
-          ModalRoute.withName('/'),
+        child = recv_details(
+          name: a.arguments[0]!,
+          housenumber: a.arguments[1]!,
+          phone: a.arguments[2]!,
+          profileUrl: a.arguments[3],
         );
+        if (appNavigator.currentContext != null) {
+          final temp = child;
+          Navigator.push(
+            appNavigator.currentContext!,
+            MaterialPageRoute(builder: (context) => temp!),
+          );
+          child = null;
+        }
 
+        break;
+      case "close":
+        final id = int.tryParse(a.arguments[0]!);
+        if (id != null) {
+          AwesomeNotifications().dismiss(id);
+        }
         break;
       default:
     }

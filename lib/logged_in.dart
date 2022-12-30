@@ -88,6 +88,8 @@ class logged_inState extends State<logged_in> {
   }
 
   Future<String> sendpushnotification() async {
+    final notificationId =
+        DateTime.now().millisecondsSinceEpoch.remainder(100000);
     try {
       final response =
           await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -105,24 +107,34 @@ class logged_inState extends State<logged_in> {
                   "channel_key": "emergency_channel",
                   "category": "call",
                   "color": "FFFFFF",
-                  "expire": DateTime.now().add(Duration(minutes: 1)).toString(),
-                  "notification_id":
-                      DateTime.now().millisecondsSinceEpoch.remainder(100000),
+                  "expire": DateTime.now()
+                      .add(const Duration(minutes: 10))
+                      .toString(),
+                  "notification_id": notificationId,
                   "fullScreenIntent": true,
                   "buttons": [
                     {
                       "key": "accept",
                       "label": "Help", //button text
                       "color": "19E567",
-                      "action":{
+                      "action": {
                         "type": "emergency",
-                        "arguments":[user.displayName,housenumber,phone]
+                        "arguments": [
+                          user.displayName,
+                          housenumber,
+                          phone,
+                          user.photoURL
+                        ]
                       }
                     },
                     {
                       "key": "reject",
                       "label": "Ignore", //button text
-                      "color": "D0342C"
+                      "color": "D0342C",
+                      "action": {
+                        "type": "close",
+                        "arguments": [notificationId.toString()]
+                      }
                     }
                   ]
                 },
@@ -138,6 +150,9 @@ class logged_inState extends State<logged_in> {
   }
 
   Future<String> sendmednotification() async {
+    final notificationId =
+        DateTime.now().millisecondsSinceEpoch.remainder(100000);
+
     try {
       final response =
           await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -151,22 +166,37 @@ class logged_inState extends State<logged_in> {
                 'data': <String, dynamic>{
                   'body': 'House number: $housenumber has medical emergency',
                   'title': 'Emergency!!!',
+                  "expire": DateTime.now()
+                      .add(const Duration(minutes: 10))
+                      .toString(),
                   "channel_key": "emergency_channel",
                   "category": "call",
                   "color": "FFFFFF",
-                  "notification_id":
-                      DateTime.now().millisecondsSinceEpoch.remainder(100000),
+                  "notification_id": notificationId,
                   "fullScreenIntent": true,
                   "buttons": [
                     {
                       "key": "accept",
                       "label": "Help", //button text
-                      "color": "19E567"
+                      "color": "19E567",
+                      "action": {
+                        "type": "emergency",
+                        "arguments": [
+                          user.displayName,
+                          housenumber,
+                          phone,
+                          user.photoURL
+                        ]
+                      }
                     },
                     {
                       "key": "reject",
                       "label": "Ignore", //button text
-                      "color": "D0342C"
+                      "color": "D0342C",
+                      "action": {
+                        "type": "close",
+                        "arguments": [notificationId.toString()]
+                      }
                     }
                   ]
                 },
@@ -196,6 +226,7 @@ class logged_inState extends State<logged_in> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       // ignore: sort_child_properties_last
@@ -207,7 +238,7 @@ class logged_inState extends State<logged_in> {
                 SizedBox(
                     height: MediaQuery.of(context).size.height * 0.32,
                     child: DrawerHeader(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 54, 174, 244),
                           borderRadius: BorderRadius.vertical(
                               bottom: Radius.circular(50))),
@@ -226,7 +257,9 @@ class logged_inState extends State<logged_in> {
                                         0.01),
                                 child: CircleAvatar(
                                   radius: 65,
-                                  backgroundImage: NetworkImage(user.photoURL!),
+                                  backgroundImage: NetworkImage(
+                                    user.photoURL!,
+                                  ),
                                 ),
                               ),
                             ],
@@ -234,7 +267,7 @@ class logged_inState extends State<logged_in> {
                     )),
                 ListTile(
                   title: Text(
-                    "${user.displayName!}",
+                    user.displayName!,
                     style: GoogleFonts.quicksand(
                         fontSize: 20, fontWeight: FontWeight.w400),
                   ),

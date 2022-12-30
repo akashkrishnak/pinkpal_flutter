@@ -10,24 +10,16 @@ import 'package:provider/provider.dart';
 import 'contents.dart';
 import 'package:hive/hive.dart';
 import 'logged_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class Home extends StatefulWidget {
+import 'notifications/app_notification.dart';
+
+class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => HomeState();
-}
-dynamic seen;
-var mybox2=Hive.box('control');
-class HomeState extends State<Home> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
   Widget build(BuildContext context) {
+    dynamic seen;
+    var mybox2 = Hive.box('control');
     return Scaffold(
       body: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
@@ -38,14 +30,19 @@ class HomeState extends State<Home> {
             );
           } else if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
-              seen=mybox2.get('seen');
-              if(seen!=null)
-              {
+              seen = mybox2.get('seen');
+              if (seen != null) {
+                if (AppNotification.child != null) {
+                  final temp = AppNotification.child;
+                  Future(() {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => temp!));
+                    AppNotification.child = null;
+                  });
+                }
                 return logged_in();
-              }
-              else
-              {
-                mybox2.put('seen',true);
+              } else {
+                mybox2.put('seen', true);
                 return homeno();
               }
             } else {
@@ -62,8 +59,7 @@ class HomeState extends State<Home> {
                     fontWeight: FontWeight.bold),
               ),
             );
-          }
-          else {
+          } else {
             return contents();
           }
         }),
