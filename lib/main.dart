@@ -11,6 +11,7 @@ import 'notifications/app_notification.dart';
 
 void main() async {
   AppNotification.init();
+
   ///listenening to notification actions
   AwesomeNotifications()
       .setListeners(onActionReceivedMethod: AppNotification.onAction);
@@ -28,6 +29,7 @@ void main() async {
   var box2 = await Hive.openBox('control');
   runApp(const MyApp());
 }
+
 final GlobalKey<NavigatorState> appNavigator = GlobalKey();
 
 class MyApp extends StatefulWidget {

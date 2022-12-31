@@ -21,22 +21,11 @@ class contentsState extends State<contents> {
   Widget build(BuildContext context) {
     return Container(
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      Padding(
-        padding:
-            EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+      Expanded(
         child: Image.asset(
           'assets/icon2.png',
         ),
       ),
-
-      // Container(
-      //     padding: EdgeInsets.only(
-      //         top: MediaQuery.of(context).size.height * .15),
-      //     child: Icon(
-      //       Icons.account_circle_outlined,
-      //       size: 250,
-      //       color: Colors.red,
-      //     )),
       Container(
         margin: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * .13),
@@ -46,7 +35,7 @@ class contentsState extends State<contents> {
           "\nWelcome to\nCompanion",
           style: GoogleFonts.quicksand(
               color: Color.fromARGB(255, 20, 140, 210),
-              fontSize: 40,
+              fontSize: 24,
               fontWeight: FontWeight.bold),
         ),
       ),
@@ -64,7 +53,7 @@ class contentsState extends State<contents> {
                 icon: FaIcon(FontAwesomeIcons.google),
                 label: Text(
                   "Google Sign In",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 18),
                 ),
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
@@ -73,7 +62,10 @@ class contentsState extends State<contents> {
                         RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18.0),
                     )))),
-          ))
+          )),
+      const SizedBox(
+        height: 32,
+      )
     ]));
   }
 }

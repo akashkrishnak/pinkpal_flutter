@@ -55,7 +55,7 @@ class Home extends StatelessWidget {
                 "Something went wrong",
                 style: TextStyle(
                     color: Color.fromARGB(255, 210, 20, 20),
-                    fontSize: 35,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold),
               ),
             );

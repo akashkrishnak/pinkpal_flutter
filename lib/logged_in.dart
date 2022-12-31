@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -248,7 +249,7 @@ class logged_inState extends State<logged_in> {
                             children: [
                               Text('User Account',
                                   style: GoogleFonts.quicksand(
-                                      fontSize: 35,
+                                      fontSize: 24,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white)),
                               Container(
@@ -256,7 +257,7 @@ class logged_inState extends State<logged_in> {
                                     top: MediaQuery.of(context).size.height *
                                         0.01),
                                 child: CircleAvatar(
-                                  radius: 65,
+                                  radius: 40,
                                   backgroundImage: NetworkImage(
                                     user.photoURL!,
                                   ),
@@ -269,7 +270,7 @@ class logged_inState extends State<logged_in> {
                   title: Text(
                     user.displayName!,
                     style: GoogleFonts.quicksand(
-                        fontSize: 20, fontWeight: FontWeight.w400),
+                        fontSize: 18, fontWeight: FontWeight.w400),
                   ),
                 ),
                 ListTile(
@@ -282,7 +283,7 @@ class logged_inState extends State<logged_in> {
                     "House No: ${housenumber}",
                     style: GoogleFonts.quicksand(
                         color: Color.fromARGB(255, 54, 174, 244),
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.w400),
                   ),
                 ),
@@ -291,7 +292,7 @@ class logged_inState extends State<logged_in> {
                     "+91 ${phone}",
                     style: GoogleFonts.quicksand(
                         color: Color.fromARGB(255, 54, 174, 244),
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.w400),
                   ),
                 ),
@@ -300,7 +301,7 @@ class logged_inState extends State<logged_in> {
                     "Edit Info",
                     style: GoogleFonts.quicksand(
                         color: Color.fromARGB(255, 54, 174, 244),
-                        fontSize: 22,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -321,7 +322,7 @@ class logged_inState extends State<logged_in> {
                     "Sign Out",
                     style: GoogleFonts.quicksand(
                         color: Color.fromARGB(255, 54, 174, 244),
-                        fontSize: 25,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -384,7 +385,7 @@ class logged_inState extends State<logged_in> {
                     "Welcome, \n${user.displayName!}",
                     style: GoogleFonts.quicksand(
                         color: Color.fromARGB(255, 197, 79, 70),
-                        fontSize: 40,
+                        fontSize: 24,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -399,119 +400,91 @@ class logged_inState extends State<logged_in> {
               ),
               Column(
                 children: [
-                  Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Center(
-                          child: SizedBox(
-                        height: MediaQuery.of(context).size.height * .25,
-                        width: MediaQuery.of(context).size.width * .63,
-                        child: MaterialButton(
-                            color: Colors.red,
-                            shape: CircleBorder(),
-                            onLongPress: () async {
-                              final msg = await sendpushnotification();
-                              // latitude = currentlocation!.latitude!.toString();
-                              // longitude = currentlocation!.longitude!.toString();
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => const location()),
-                              // );
-                              showModalBottomSheet(
-                                  context: context,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.elliptical(200, 50),
-                                    ),
-                                  ),
-                                  builder: ((context) {
-                                    return SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.13,
-                                        child: Center(
-                                          child: Text(
-                                            msg,
-                                            style: GoogleFonts.quicksand(
-                                                color: Colors.red,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ));
-                                  }));
-                            },
-                            onPressed: () {
-                              print(user.uid);
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(.01),
-                              child: Text(
-                                "SOS",
-                                style: GoogleFonts.quicksand(
-                                    color: Colors.white,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    fontWeight: FontWeight.bold),
+                  MaterialButton(
+                      color: Colors.red,
+                      shape: CircleBorder(),
+                      onLongPress: () async {
+                        final msg = await sendpushnotification();
+                        // latitude = currentlocation!.latitude!.toString();
+                        // longitude = currentlocation!.longitude!.toString();
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const location()),
+                        // );
+                        showModalBottomSheet(
+                            context: context,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.elliptical(200, 50),
                               ),
-                            )),
-                      ))),
-                  Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Center(
-                          child: SizedBox(
-                        height: MediaQuery.of(context).size.height * .25,
-                        width: MediaQuery.of(context).size.width * .63,
-                        child: MaterialButton(
-                            color: Color.fromARGB(255, 54, 146, 244),
-                            shape: CircleBorder(),
-                            onLongPress: () async {
-                              final msg = await sendmednotification();
-                              // latitude = currentlocation!.latitude!.toString();
-                              // longitude = currentlocation!.longitude!.toString();
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => const location()),
-                              // );
-                              showModalBottomSheet(
-                                  context: context,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.elliptical(200, 50),
+                            ),
+                            builder: ((context) {
+                              return SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.13,
+                                  child: Center(
+                                    child: Text(
+                                      msg,
+                                      style: GoogleFonts.quicksand(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                  ),
-                                  builder: ((context) {
-                                    return SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.13,
-                                        child: Center(
-                                          child: Text(
-                                            msg,
-                                            style: GoogleFonts.quicksand(
-                                                color: Colors.red,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ));
-                                  }));
-                            },
-                            onPressed: () {
-                              print(user.uid);
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(.01),
-                              child: Text(
-                                textAlign: TextAlign.center,
-                                "Medical\nSOS",
-                                style: GoogleFonts.quicksand(
-                                    color: Colors.white,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width * 0.1,
-                                    fontWeight: FontWeight.bold),
+                                  ));
+                            }));
+                      },
+                      onPressed: () {
+                        print(user.uid);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/sos.svg",
+                        width: MediaQuery.of(context).size.height * .25,
+                      )),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  MaterialButton(
+                      color: Color.fromARGB(255, 54, 146, 244),
+                      shape: CircleBorder(),
+                      onLongPress: () async {
+                        final msg = await sendmednotification();
+                        // latitude = currentlocation!.latitude!.toString();
+                        // longitude = currentlocation!.longitude!.toString();
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const location()),
+                        // );
+                        showModalBottomSheet(
+                            context: context,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.elliptical(200, 50),
                               ),
-                            )),
-                      )))
+                            ),
+                            builder: ((context) {
+                              return SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.13,
+                                  child: Center(
+                                    child: Text(
+                                      msg,
+                                      style: GoogleFonts.quicksand(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ));
+                            }));
+                      },
+                      onPressed: () {
+                        print(user.uid);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/medical-sos.svg",
+                        width: MediaQuery.of(context).size.height * .25,
+                      ))
                 ],
               )
             ],

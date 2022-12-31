@@ -8,7 +8,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class homeno extends StatefulWidget {
-
   @override
   State<homeno> createState() => homenoState();
 }
@@ -39,7 +38,6 @@ void pop(BuildContext context) {
   );
 }
 
-
 final FirebaseAuth firebaseauth = FirebaseAuth.instance;
 final user = FirebaseAuth.instance.currentUser!;
 
@@ -47,10 +45,9 @@ class homenoState extends State<homeno> {
   TextEditingController house = TextEditingController();
   TextEditingController phno = TextEditingController();
   @override
-
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
           child: Column(
         children: [
           SizedBox(
@@ -61,7 +58,7 @@ class homenoState extends State<homeno> {
             child: Text(
               "Enter house number & phone number",
               style: GoogleFonts.quicksand(
-                  color: Colors.red, fontSize: 45, fontWeight: FontWeight.bold),
+                  color: Colors.red, fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
           SizedBox(
@@ -83,7 +80,7 @@ class homenoState extends State<homeno> {
                 )),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
+            height: 16,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
@@ -101,8 +98,8 @@ class homenoState extends State<homeno> {
                       borderSide: BorderSide(color: Colors.red)),
                 )),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.15,
+          const SizedBox(
+            height: 50,
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.4,
@@ -125,7 +122,8 @@ class homenoState extends State<homeno> {
                     'house number': house.text
                   });
                   if (house.text != "" && phno.text != "") {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>logged_in()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => logged_in()));
                   } else {
                     pop(context);
                   }
