@@ -1,23 +1,20 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'contents.dart';
-import 'logged_in.dart';
+
 import 'package:location/location.dart';
-import 'location.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
-import 'main.dart';
 import 'houseno.dart';
 import 'home.dart';
 
@@ -108,6 +105,7 @@ class logged_inState extends State<logged_in> {
                   "channel_key": "emergency_channel",
                   "category": "call",
                   "color": "FFFFFF",
+                  "largeIcon": user.photoURL,
                   "expire": DateTime.now()
                       .add(const Duration(minutes: 10))
                       .toString(),
@@ -132,10 +130,8 @@ class logged_inState extends State<logged_in> {
                       "key": "reject",
                       "label": "Ignore", //button text
                       "color": "D0342C",
-                      "action": {
-                        "type": "close",
-                        "arguments": [notificationId.toString()]
-                      }
+                      "action_type": "dismissAction",
+                      "isDangerousOption": true
                     }
                   ]
                 },
@@ -173,6 +169,7 @@ class logged_inState extends State<logged_in> {
                   "channel_key": "emergency_channel",
                   "category": "call",
                   "color": "FFFFFF",
+                  "largeIcon": user.photoURL,
                   "notification_id": notificationId,
                   "fullScreenIntent": true,
                   "buttons": [
@@ -194,10 +191,8 @@ class logged_inState extends State<logged_in> {
                       "key": "reject",
                       "label": "Ignore", //button text
                       "color": "D0342C",
-                      "action": {
-                        "type": "close",
-                        "arguments": [notificationId.toString()]
-                      }
+                      "action_type": "dismissAction",
+                      "isDangerousOption": true
                     }
                   ]
                 },

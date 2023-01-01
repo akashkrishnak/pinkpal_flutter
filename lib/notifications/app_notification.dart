@@ -19,8 +19,9 @@ class AppNotification {
     "emergency_channel",
     "lock_screen_emergenecy"
   ];
+  @pragma('vm:entry-point')
   static Future<void> bacgroundMessage(RemoteMessage message) async {
-    debugPrint("Notification recived");
+    debugPrint("Notification recevied background");
     if (message.notification == null) {
       final data = LocalNotification.fromJson(message.data);
       if (DateTime.now().isBefore(data.expire)) {
@@ -31,7 +32,7 @@ class AppNotification {
 
   static void listenForMessage() {
     FirebaseMessaging.onMessage.listen((message) {
-      debugPrint("Notification recived");
+      debugPrint("Notification recevied foreground");
       if (message.notification == null) {
         debugPrint("Creating notification");
         final messageData = LocalNotification.fromJson(message.data);
@@ -41,6 +42,7 @@ class AppNotification {
     });
   }
 
+  @pragma('vm:entry-point')
   static Future<void> onAction(ReceivedAction event) async {
     if (event.payload != null) {
       final action = AppNotification.getButtonAction(event);
@@ -92,6 +94,7 @@ class AppNotification {
         debug: false);
   }
 
+  @pragma('vm:entry-point')
   static createNotification(LocalNotification notification) async {
     List<NotificationActionButton> buttons = [];
 
@@ -100,7 +103,7 @@ class AppNotification {
           key: button.key ?? "",
           label: button.label ?? "",
           autoDismissible: true,
-          actionType: ActionType.Default,
+          actionType: button.actionType ?? ActionType.Default,
           isDangerousOption: button.isDangerousOption ?? false,
           color: button.color == null
               ? null
@@ -110,8 +113,6 @@ class AppNotification {
     bool? result = await isLockScreen();
     AwesomeNotifications().createNotification(
         content: NotificationContent(
-          // customSound:
-          //     result == null || !result ? null : "resource://raw/sound",
           fullScreenIntent: notification.fullScreenIntent,
           wakeUpScreen: true,
           bigPicture: notification.bigPicture,
@@ -138,6 +139,7 @@ class AppNotification {
         actionButtons: buttons);
   }
 
+  @pragma('vm:entry-point')
   static ButtonAction? getButtonAction(ReceivedAction action) {
     if (action.payload!["buttons"] != null &&
         action.payload!["buttons"] is String) {
@@ -159,6 +161,7 @@ class AppNotification {
     return null;
   }
 
+  @pragma('vm:entry-point')
   static void performAction(ButtonAction a) {
     switch (a.type) {
       case "emergency":

@@ -12,6 +12,7 @@ class LocalNotification {
   NotificationCategory? category;
   String? backgroundColor;
   String? color;
+
   late List<NotificationButton> buttons;
 
   LocalNotification(
@@ -93,18 +94,37 @@ class NotificationButton {
   String? label;
   bool? isDangerousOption;
   String? color;
+  ActionType? actionType;
   ButtonAction? action;
 
   NotificationButton(
-      {this.key, this.label, this.isDangerousOption, this.color, this.action});
+      {this.key,
+      this.label,
+      this.isDangerousOption,
+      this.color,
+      this.action,
+      required this.actionType});
 
   NotificationButton.fromJson(Map<String, dynamic> json) {
     key = json['key'];
+    actionType = json["action_type"] == null
+        ? ActionType.Default
+        : getActiontype(json["action_type"]);
     label = json['label'];
     isDangerousOption = json['isDangerousOption'];
     color = json['color'];
     action =
         json['action'] != null ? ButtonAction.fromJson(json['action']) : null;
+  }
+  static ActionType getActiontype(String actiontype) {
+    switch (actiontype) {
+      case "dismissAction":
+        return ActionType.DismissAction;
+      case "disabledAction":
+        return ActionType.DisabledAction;
+      default:
+        return ActionType.Default;
+    }
   }
 
   Map<String, dynamic> toJson() {
