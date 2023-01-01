@@ -161,7 +161,7 @@ class logged_inState extends State<logged_in> {
               body: jsonEncode(<String, dynamic>{
                 'priority': 'high',
                 'data': <String, dynamic>{
-                  'body': 'House number: $housenumber has medical emergency',
+                  'body': '${user.displayName} has medical emergency!!\nHouse number: $housenumber',
                   'title': 'Emergency!!!',
                   "expire": DateTime.now()
                       .add(const Duration(minutes: 10))
