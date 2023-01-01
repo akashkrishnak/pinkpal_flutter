@@ -22,7 +22,7 @@ class recv_details extends StatelessWidget {
                 "Companion",
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 25,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold),
               )
             ],
@@ -48,7 +48,7 @@ class recv_details extends StatelessWidget {
                 const Text(
                   "Emergency",
                   style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.red),
                 ),
@@ -63,13 +63,13 @@ class recv_details extends StatelessWidget {
                       child: const Text(
                         "Name :",
                         style:
-                            const TextStyle(fontSize: 22, color: Colors.grey),
+                            const TextStyle(fontSize: 18, color: Colors.grey),
                       ),
                     ),
                     Text(
                       name,
                       style: const TextStyle(
-                          fontSize: 25,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     )
@@ -85,14 +85,14 @@ class recv_details extends StatelessWidget {
                       flex: 2,
                       child: const Text(
                         "House number :",
-                        style: TextStyle(fontSize: 22, color: Colors.grey),
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
                       ),
                     ),
                     Expanded(
                         child: Text(
                       housenumber,
                       style: const TextStyle(
-                          fontSize: 25,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ))
@@ -124,7 +124,7 @@ class recv_details extends StatelessWidget {
                       await FlutterPhoneDirectCaller.callNumber(phone);
                     },
                     child:
-                        const Text("Call now", style: TextStyle(fontSize: 25)),
+                        const Text("Call now", style: TextStyle(fontSize: 20)),
                   ),
                 )),
           ],

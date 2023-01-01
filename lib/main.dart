@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -20,7 +22,7 @@ void main() async {
   AppNotification.listenForMessage();
   FirebaseMessaging.onBackgroundMessage(AppNotification.bacgroundMessage);
   FirebaseMessaging.instance.getToken().then((v) {
-    debugPrint(v);
+    log(v.toString());
   });
   FirebaseMessaging.instance.subscribeToTopic("emercall");
 
